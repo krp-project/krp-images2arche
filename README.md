@@ -4,10 +4,10 @@ Repo to generate ARCHE-RDF from KRP images
 
 ## set protocol ID
 
-Adapt `/set_protocol_id.sh` so it matches the folder/protocol you'd like to process.
+Adapt `/protocol_id.env` so it matches the folder/protocol you'd like to process.
 
 ```bash
-source ./set_protocol_id.sh
+source ./set_env_variables.sh
 ```
 
 ## compress tifs
@@ -15,11 +15,17 @@ source ./set_protocol_id.sh
 compress tifs in the given folder
 
 ```bash
-./arche/compress_tiffs.sh
+./src/compress_tiffs.sh
 ```
 
 ## run filechecker
 
 ```bash
 ./arche/arche__filechecker.sh
+```
+
+## create arche rdf
+
+```bash
+uv run ./src/arche.py
 ```

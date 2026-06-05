@@ -9,7 +9,7 @@
 
 if [ -z "${PROTOCOL_DIR:-}" ] || [ -z "${PROTOCOL_ID:-}" ]; then
     echo "Error: PROTOCOL_DIR and PROTOCOL_ID must be set in the environment."
-    echo "Hint: source ./set_protocol_id.sh"
+    echo "Hint: source ./set_env_variables.sh"
     exit 1
 fi
 
