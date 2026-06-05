@@ -1,13 +1,19 @@
 #!/bin/bash
 # Script assuring TIF/TIFF files in a given directory tree
-# (passed as a first parameter or a current working dir otherwise)
+# (derived from PROTOCOL_DIR/PROTOCOL_ID environment variables)
 # are LZW-compressed.
 # copied from https://github.com/acdh-oeaw/arche-curationTools/blob/master/tif_lzw.sh
 #
 # Uses gdal_translate for the LZW compression and then copies
 # image metadata using the exiftool
 
-TARGET_DIR="${1:-.}"
+if [ -z "${PROTOCOL_DIR:-}" ] || [ -z "${PROTOCOL_ID:-}" ]; then
+    echo "Error: PROTOCOL_DIR and PROTOCOL_ID must be set in the environment."
+    echo "Hint: source ./set_protocol_id.sh"
+    exit 1
+fi
+
+TARGET_DIR="${PROTOCOL_DIR%/}/${PROTOCOL_ID}"
 cd "$TARGET_DIR" || exit 1
 
 echo "Processing directory $(pwd) recursively"

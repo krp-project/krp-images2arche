@@ -1,6 +1,10 @@
 #/bin/bash
 echo "run filechecker"
-PROTOCOL_ID=krp-0169
+if [ -z "${PROTOCOL_DIR:-}" ] || [ -z "${PROTOCOL_ID:-}" ]; then
+    echo "Error: PROTOCOL_DIR and PROTOCOL_ID must be set in the environment."
+    echo "Hint: source ./set_protocol_id.sh"
+    exit 1
+fi
 rm -rf ${PWD}/${PROTOCOL_ID} && mkdir ${PWD}/${PROTOCOL_ID}
 docker run \
   --rm \
