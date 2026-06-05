@@ -1,0 +1,12 @@
+@prefix acdh: <https://vocabs.acdh.oeaw.ac.at/schema#> .
+@prefix acdhi: <https://id.acdh.oeaw.ac.at/> .
+
+<https://foo/bar> acdh:hasLicense <https://vocabs.acdh.oeaw.ac.at/archelicenses/noc-oklr> ;
+    acdh:hasContact <https://d-nb.info/gnd/120789825> ;  # Thomas Olechowski
+    acdh:hasDepositor <https://d-nb.info/gnd/120789825> ;  # Thomas Olechowski
+    acdh:hasMetadataCreator acdhi:pandorfer ;
+    acdh:hasLicensor acdhi:none ;
+    acdh:hasOwner acdhi:none ;
+    acdh:hasRightsInformation "ToDo"@de ;
+    acdh:hasRightsInformation "ToDo"@en ;
+    acdh:hasRightsHolder acdhi:none .
