@@ -218,3 +218,4 @@ __marimo__/
 .streamlit/secrets.toml
 krp-*/
 secret.env
+to_ingest/arche.ttl

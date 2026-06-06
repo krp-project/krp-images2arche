@@ -58,12 +58,19 @@ g.add(
         URIRef("https://id.acdh.oeaw.ac.at/pandorfer"),
     )
 )
+g.add(
+    (
+        PROTOCOL_URI,
+        ACDH["hasNonLinkedIdentifier"],
+        Literal(f"{MD_DATA['orig_file_name'].replace('.docx', '')}"),
+    )
+)
 g.add((PROTOCOL_URI, ACDH["hasDepositor"], URIRef("https://d-nb.info/gnd/120789825")))
 
 
 files = glob.glob(f"{img_dir}/**/*.TIF", recursive=True)
 
-for x in files[:3]:
+for x in files:
     f_name = os.path.split(x)[-1]
     subj = URIRef(f"{TOP_COL_URI}/{f_name}")
     g.add((subj, RDF.type, ACDH["Resource"]))
