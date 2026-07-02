@@ -1,5 +1,6 @@
 import glob
 import os
+import re  # for capturing sub-collection IDs from filename pattern
 import shutil
 
 import requests
@@ -26,6 +27,10 @@ MD_DATA = {value["krp_id"]: value for key, value in MD_FILE.items()}[PROTOCOL_ID
 print(MD_DATA)
 
 img_dir = os.path.join(BASE_PATH, PROTOCOL_ID)
+
+# create regex pattern object for capturing sub-collection IDs from filenames:
+# presuppose conventional filenaming, but allow for hyphen-underscore inconsistency
+pattern = re.compile("^(" + re.escape(PROTOCOL_ID) + r"_[a-z]+\d*)[-_]\d{4}\.TIF$")
 
 PROTOCOL_URI = URIRef(f"{TOP_COL_URI}/{PROTOCOL_ID}")
 g.add((PROTOCOL_URI, RDF.type, ACDH["Collection"]))
@@ -77,11 +82,34 @@ g.add((PROTOCOL_URI, ACDH["hasDepositor"], URIRef("https://d-nb.info/gnd/1207898
 
 files = glob.glob(f"{img_dir}/**/*.TIF", recursive=True)
 
+# create set for matching sub-collection IDs and list of unmatched filenames
+sub_coll_ids = set()
+unmatched = []
+
 for x in files:
     f_name = os.path.split(x)[-1]
+
+    # validate filename against pattern:
+    # store valid sub-collection IDs in set; relegate unmatched filenames to list
+    match = pattern.match(f_name)
+    if match:
+        sub_coll_id = match.group(1)
+        sub_coll_ids.add(sub_coll_id)
+    else:
+        unmatched.append(f_name)
+        continue
+
+    # add sub-collection triples (idempotently)
+    # TODO: map IDs to proper titles, add descriptions
+    sub_coll_uri = URIRef(f"{TOP_COL_URI}/{sub_coll_id}")
+    g.add((sub_coll_uri, RDF.type, ACDH["Collection"]))
+    g.add((sub_coll_uri, ACDH["isPartOf"], PROTOCOL_URI))
+
     subj = URIRef(f"{TOP_COL_URI}/{f_name}")
     g.add((subj, RDF.type, ACDH["Resource"]))
-    g.add((subj, ACDH["isPartOf"], PROTOCOL_URI))
+    g.add(
+        (subj, ACDH["isPartOf"], sub_coll_uri)
+    )  # point to sub-collection (instead of protocol collection)
     g.add((subj, ACDH["hasTitle"], Literal(f"{MD_DATA['title']}: {f_name}", lang="de")))
     g.add(
         (
@@ -93,5 +121,8 @@ for x in files:
     g.add((subj, ACDH["hasDigitisingAgent"], URIRef("https://id.acdh.oeaw.ac.at/none")))
     for p, o in arche_constants.predicate_objects():
         g.add((subj, p, o))
+
+if unmatched:
+    print(f"{len(unmatched)} file(s) do not match naming convention: {unmatched}")
 
 g.serialize(out_file)
