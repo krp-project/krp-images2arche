@@ -69,13 +69,13 @@ g.add(
         Literal(f"{MD_DATA['title']} {MD_DATA['written_date']}", lang="de"),
     )
 )
-g.add(
-    (
-        PROTOCOL_URI,
-        ACDH["hasAlternativeTitle"],
-        Literal(f"{MD_DATA['period']['value']}", lang="de"),
-    )
-)
+# g.add(
+#     (
+#         PROTOCOL_URI,
+#         ACDH["hasAlternativeTitle"],
+#         Literal(f"{MD_DATA['period']['value']}", lang="de"),
+#     )
+# )
 g.add(
     (
         PROTOCOL_URI,
