@@ -26,11 +26,27 @@ MD_FILE = requests.get(
 MD_DATA = {value["krp_id"]: value for key, value in MD_FILE.items()}[PROTOCOL_ID]
 print(MD_DATA)
 
+# map image file letter code to document-part names
+PARTS_MAP = {
+    "a": "Anhang",
+    "b": "Beilage",
+    "k": "Konzept",
+    "r": "Reinschrift",
+    "s": "Stenogramm",
+    "t": "Tagesordnung",
+    "z": "Zusätze",
+}
+permitted_letters = "".join(
+    PARTS_MAP.keys()
+)  # save permitted letters from PARTS_MAP (single source of truth)
+
 img_dir = os.path.join(BASE_PATH, PROTOCOL_ID)
 
 # create regex pattern object for capturing sub-collection IDs from filenames:
 # presuppose conventional filenaming, but allow for hyphen-underscore inconsistency
-pattern = re.compile("^(" + re.escape(PROTOCOL_ID) + r"_[a-z]+\d*)[-_]\d{4}\.TIF$")
+pattern = re.compile(
+    rf"^({re.escape(PROTOCOL_ID)}_([{permitted_letters}])(\d*))[-_]\d{{4}}\.TIF$"
+)
 
 PROTOCOL_URI = URIRef(f"{TOP_COL_URI}/{PROTOCOL_ID}")
 g.add((PROTOCOL_URI, RDF.type, ACDH["Collection"]))
@@ -99,11 +115,18 @@ for x in files:
         unmatched.append(f_name)
         continue
 
+    # create sub-collection name from regex capture groups
+    if match.group(3):
+        sub_coll_name = f"{PARTS_MAP[match.group(2)]} {match.group(3)}"
+    else:
+        sub_coll_name = PARTS_MAP[match.group(2)]
+
     # add sub-collection triples (idempotently)
-    # TODO: map IDs to proper titles, add descriptions
+    # TODO: add descriptions
     sub_coll_uri = URIRef(f"{TOP_COL_URI}/{sub_coll_id}")
     g.add((sub_coll_uri, RDF.type, ACDH["Collection"]))
     g.add((sub_coll_uri, ACDH["isPartOf"], PROTOCOL_URI))
+    g.add((sub_coll_uri, ACDH["hasTitle"], Literal(sub_coll_name, lang="de")))
 
     subj = URIRef(f"{TOP_COL_URI}/{f_name}")
     g.add((subj, RDF.type, ACDH["Resource"]))
@@ -122,6 +145,7 @@ for x in files:
     for p, o in arche_constants.predicate_objects():
         g.add((subj, p, o))
 
+# output console feedback on unmatched file names for the mechanism to fail informatively
 if unmatched:
     print(f"{len(unmatched)} file(s) do not match naming convention: {unmatched}")
 
