@@ -26,6 +26,17 @@ MD_FILE = requests.get(
 MD_DATA = {value["krp_id"]: value for key, value in MD_FILE.items()}[PROTOCOL_ID]
 print(MD_DATA)
 
+# collect digitising-agent infos in tuples
+DIGITISING_AGENTS = [
+    (URIRef("https://orcid.org/0009-0005-3560-3500"), "Anna", "Holzer"),
+    (URIRef("https://d-nb.info/gnd/131679384"), "Richard", "Lein"),
+    (URIRef("https://orcid.org/0009-0007-5210-3713"), "Ina", "Schotzko"),
+    (URIRef("https://orcid.org/0009-0007-9895-7212"), "Dominik", "Sölkner"),
+]
+
+# collect 2nd metadata-creator infos in tuple
+tfruehwirth = (URIRef("https://orcid.org/0000-0002-3997-5193"), "Timo", "Frühwirth")
+
 # map image file letter code to document-part names
 PARTS_MAP = {
     "a": "Anhang",
@@ -94,6 +105,8 @@ g.add(
     )
 )
 g.add((PROTOCOL_URI, ACDH["hasDepositor"], URIRef("https://d-nb.info/gnd/120789825")))
+# add 2nd metadata creator to collection
+g.add((PROTOCOL_URI, ACDH["hasMetadataCreator"], tfruehwirth[0]))
 
 
 files = glob.glob(f"{img_dir}/**/*.TIF", recursive=True)
@@ -121,12 +134,14 @@ for x in files:
     else:
         sub_coll_name = PARTS_MAP[match.group(2)]
 
-    # add sub-collection triples (idempotently)
+    # add sub-collection triples once (idempotently)
     # TODO: add descriptions
     sub_coll_uri = URIRef(f"{TOP_COL_URI}/{sub_coll_id}")
     g.add((sub_coll_uri, RDF.type, ACDH["Collection"]))
     g.add((sub_coll_uri, ACDH["isPartOf"], PROTOCOL_URI))
     g.add((sub_coll_uri, ACDH["hasTitle"], Literal(sub_coll_name, lang="de")))
+    # add 2nd metadata creator to sub-collection
+    g.add((sub_coll_uri, ACDH["hasMetadataCreator"], tfruehwirth[0]))
 
     subj = URIRef(f"{TOP_COL_URI}/{f_name}")
     g.add((subj, RDF.type, ACDH["Resource"]))
@@ -141,9 +156,26 @@ for x in files:
             URIRef("https://vocabs.acdh.oeaw.ac.at/archecategory/image"),
         )
     )
-    g.add((subj, ACDH["hasDigitisingAgent"], URIRef("https://id.acdh.oeaw.ac.at/none")))
+    # loop through digitising-agent infos
+    for uri, firstname, lastname in DIGITISING_AGENTS:
+        g.add(
+            (subj, ACDH["hasDigitisingAgent"], uri)
+        )  # add digitising agents to each image
+        # add person triples once (idempotently)
+        g.add((uri, RDF.type, ACDH["Person"]))
+        g.add((uri, ACDH["hasFirstName"], Literal(firstname, lang="de")))
+        g.add((uri, ACDH["hasLastName"], Literal(lastname, lang="de")))
     for p, o in arche_constants.predicate_objects():
         g.add((subj, p, o))
+    # add 2nd metadata creator to resource once (idempotently)
+    g.add((subj, ACDH["hasMetadataCreator"], tfruehwirth[0]))
+
+# add 2nd metadata creator to top collection
+g.add((TOP_COL_URI, ACDH["hasMetadataCreator"], tfruehwirth[0]))
+# add 2nd-metadata-creator infos
+g.add((tfruehwirth[0], RDF.type, ACDH["Person"]))
+g.add((tfruehwirth[0], ACDH["hasFirstName"], Literal(tfruehwirth[1], lang="de")))
+g.add((tfruehwirth[0], ACDH["hasLastName"], Literal(tfruehwirth[2], lang="de")))
 
 # output console feedback on unmatched file names for the mechanism to fail informatively
 if unmatched:
