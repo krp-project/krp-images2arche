@@ -140,6 +140,10 @@ for x in files:
     g.add((sub_coll_uri, RDF.type, ACDH["Collection"]))
     g.add((sub_coll_uri, ACDH["isPartOf"], PROTOCOL_URI))
     g.add((sub_coll_uri, ACDH["hasTitle"], Literal(sub_coll_name, lang="de")))
+    g.add(
+        (sub_coll_uri, ACDH["hasDepositor"], URIRef("https://d-nb.info/gnd/120789825"))
+    )
+
     # add 2nd metadata creator to sub-collection
     g.add((sub_coll_uri, ACDH["hasMetadataCreator"], tfruehwirth[0]))
 
