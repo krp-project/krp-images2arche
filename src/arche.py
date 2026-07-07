@@ -16,7 +16,6 @@ TOP_COL = os.environ.get("TOPCOLID", "https://id.acdh.oeaw.ac.at/krp")
 TOP_COL_URI = URIRef(TOP_COL)
 ACDH = Namespace("https://vocabs.acdh.oeaw.ac.at/schema#")
 
-
 BASE_PATH = os.environ.get("PROTOCOL_DIR")
 PROTOCOL_ID = os.environ.get("PROTOCOL_ID")
 MD_FILE = requests.get(
@@ -26,7 +25,8 @@ MD_FILE = requests.get(
 MD_DATA = {value["krp_id"]: value for key, value in MD_FILE.items()}[PROTOCOL_ID]
 print(MD_DATA)
 
-# collect digitising-agent infos in tuples
+# collect digitising-agent infos in list of tuples
+# TODO: update list
 DIGITISING_AGENTS = [
     (URIRef("https://orcid.org/0009-0005-3560-3500"), "Anna", "Holzer"),
     (URIRef("https://d-nb.info/gnd/131679384"), "Richard", "Lein"),
@@ -135,7 +135,7 @@ for x in files:
         sub_coll_name = PARTS_MAP[match.group(2)]
 
     # add sub-collection triples once (idempotently)
-    # TODO: add descriptions
+    # TODO: add depositor info, perhaps add descriptions
     sub_coll_uri = URIRef(f"{TOP_COL_URI}/{sub_coll_id}")
     g.add((sub_coll_uri, RDF.type, ACDH["Collection"]))
     g.add((sub_coll_uri, ACDH["isPartOf"], PROTOCOL_URI))
