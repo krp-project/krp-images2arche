@@ -8,12 +8,12 @@
     acdh:hasTitle """The Minutes of the Austrian Cabinet Council 1919–1920"""@en ;
     acdh:hasDescription """Diese Sammlung enthält die Scans der Protokolle des österreichischen Kabinettsrates 1919–1920"""@de;
     acdh:hasDescription """This collection contains the scans of the minutes of the Austrian Cabinet Council 1919–1920."""@en;
-    acdh:hasTemporalCoverage "Die Protokolle behandeln die Jahre 1919 und 1920."@de ;
-    acdh:hasTemporalCoverage "The minutes cover the years 1919 and 1920."@en ;
+    acdh:hasTemporalCoverage "Die Protokolle stammen aus den Jahren 1919 und 1920."@de ;
+    acdh:hasTemporalCoverage "The minutes date from the years 1919 and 1920."@en ;
     # acdh:hasUrl "https://krp.acdh.oeaw.ac.at";
     acdh:hasLifeCycleStatus <https://vocabs.acdh.oeaw.ac.at/archelifecyclestatus/active> ;
     acdh:hasCompleteness """Die Sammlung enthält aktuell nur die Scans der Protokolle, wird bis 2028 aber um annotierte Transkriptionen der Protokolle (sowie ergänzender Materialien) im TEI/XML Format erweitert."""@de ;
-    acdh:hasCompleteness """The collection currently contains only scans of the minutes but will be expanded by 2028 to include annotated transcriptions of the minutes (and of supplementary materials) in TEI/XML format."""@en ;
+    acdh:hasCompleteness """The collection currently contains only scans of the minutes, but will be expanded by 2028 to include annotated transcriptions of the minutes (and of supplementary materials) in TEI/XML format."""@en ;
     acdh:hasAppliedMethodDescription """Die Protokolle wurden vom Projektteam im Österreichischen Staatsarchiv digitalisiert."""@de ;
     acdh:hasAppliedMethodDescription """The minutes were digitized by the project team at the Austrian State Archives."""@en ;
     acdh:hasSubject "Protokoll"@de ;

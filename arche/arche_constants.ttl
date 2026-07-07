@@ -5,8 +5,8 @@
     acdh:hasContact <https://d-nb.info/gnd/120789825> ;  # Thomas Olechowski
     acdh:hasDepositor <https://d-nb.info/gnd/120789825> ;  # Thomas Olechowski
     acdh:hasMetadataCreator acdhi:pandorfer ;
-    acdh:hasLicensor acdhi:none ;
-    acdh:hasOwner acdhi:none ;
-    acdh:hasRightsInformation "ToDo"@de ;
-    acdh:hasRightsInformation "ToDo"@en ;
-    acdh:hasRightsHolder acdhi:none .
+    acdh:hasLicensor acdhi:none ;  # TODO
+    acdh:hasOwner acdhi:none ;  # TODO
+    acdh:hasRightsInformation "ToDo"@de ;  # TODO
+    acdh:hasRightsInformation "ToDo"@en ;  # TODO
+    acdh:hasRightsHolder acdhi:none .  # TODO
