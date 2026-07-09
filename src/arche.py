@@ -135,7 +135,6 @@ for x in files:
         sub_coll_name = PARTS_MAP[match.group(2)]
 
     # add sub-collection triples once (idempotently)
-    # TODO: add depositor info, perhaps add descriptions
     sub_coll_uri = URIRef(f"{TOP_COL_URI}/{sub_coll_id}")
     g.add((sub_coll_uri, RDF.type, ACDH["Collection"]))
     g.add((sub_coll_uri, ACDH["isPartOf"], PROTOCOL_URI))
