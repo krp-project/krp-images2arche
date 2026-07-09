@@ -26,12 +26,13 @@ MD_DATA = {value["krp_id"]: value for key, value in MD_FILE.items()}[PROTOCOL_ID
 print(MD_DATA)
 
 # collect digitising-agent infos in list of tuples
-# TODO: update list
 DIGITISING_AGENTS = [
     (URIRef("https://orcid.org/0009-0005-3560-3500"), "Anna", "Holzer"),
     (URIRef("https://d-nb.info/gnd/131679384"), "Richard", "Lein"),
     (URIRef("https://orcid.org/0009-0007-5210-3713"), "Ina", "Schotzko"),
     (URIRef("https://orcid.org/0009-0007-9895-7212"), "Dominik", "Sölkner"),
+    (URIRef("https://orcid.org/0009-0006-8542-4743"), "Aliana", "Martinez Despaigne"),
+    (URIRef("https://orcid.org/0009-0005-4167-5041"), "Georg", "Hubalek"),
 ]
 
 # collect 2nd metadata-creator infos in tuple
