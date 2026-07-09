@@ -112,12 +112,14 @@ g.add((PROTOCOL_URI, ACDH["hasDepositor"], URIRef("https://d-nb.info/gnd/1207898
 # add 2nd metadata creator to collection
 g.add((PROTOCOL_URI, ACDH["hasMetadataCreator"], tfruehwirth[0]))
 
-
 files = glob.glob(f"{img_dir}/**/*.TIF", recursive=True)
 
 # create set for matching sub-collection IDs and list of unmatched filenames
 sub_coll_ids = set()
 unmatched = []
+
+# create set for holding names of all sub-collections inside collection
+sub_coll_names = set()
 
 # create counter for scans in sub-collections (no idempotency)
 sub_coll_counts = Counter()
@@ -146,6 +148,9 @@ for x in files:
         sub_coll_name = f"{PARTS_MAP[match.group(2)]} {match.group(3)}"
     else:
         sub_coll_name = PARTS_MAP[match.group(2)]
+
+    # add freshly created sub-collection name to set
+    sub_coll_names.add(sub_coll_name)
 
     # concatenate sub-collection description
     sub_coll_desc = f"{sub_coll_name} zu {MD_DATA['title']} {MD_DATA['written_date']}, bestehend aus {sub_coll_counts[sub_coll_id]} digitalisierten Seite(n)"
@@ -188,6 +193,10 @@ for x in files:
         g.add((subj, p, o))
     # add 2nd metadata creator to resource once (idempotently)
     g.add((subj, ACDH["hasMetadataCreator"], tfruehwirth[0]))
+
+# concatenate collection description and add hasDescription triple
+coll_desc = f"{MD_DATA['title']} {MD_DATA['written_date']}, bestehend aus {len(sub_coll_names)} Teilen: {', '.join(sorted(sub_coll_names))}"
+g.add((PROTOCOL_URI, ACDH["hasDescription"], Literal(coll_desc, lang="de")))
 
 # add 2nd metadata creator to top collection
 g.add((TOP_COL_URI, ACDH["hasMetadataCreator"], tfruehwirth[0]))
