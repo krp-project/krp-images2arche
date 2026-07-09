@@ -6,7 +6,7 @@
 <https://id.acdh.oeaw.ac.at/krp> a acdh:TopCollection ;
     acdh:hasTitle """Die Protokolle des österreichischen Kabinettsrates 1919–1920"""@de ;
     acdh:hasTitle """The Minutes of the Austrian Cabinet Council 1919–1920"""@en ;
-    acdh:hasDescription """Diese Sammlung enthält die Scans der Protokolle des österreichischen Kabinettsrates 1919–1920"""@de;
+    acdh:hasDescription """Diese Sammlung enthält die Scans der Protokolle des österreichischen Kabinettsrates 1919–1920."""@de;
     acdh:hasDescription """This collection contains the scans of the minutes of the Austrian Cabinet Council 1919–1920."""@en;
     acdh:hasTemporalCoverage "Die Protokolle stammen aus den Jahren 1919 und 1920."@de ;
     acdh:hasTemporalCoverage "The minutes date from the years 1919 and 1920."@en ;
