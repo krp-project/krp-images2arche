@@ -2,6 +2,9 @@ import glob
 import os
 import re  # for capturing sub-collection IDs from filename pattern
 import shutil
+from collections import (
+    Counter,  # import Counter class for counting scans for sub-collection description
+)
 
 import requests
 from rdflib import RDF, XSD, Graph, Literal, Namespace, URIRef
@@ -116,6 +119,15 @@ files = glob.glob(f"{img_dir}/**/*.TIF", recursive=True)
 sub_coll_ids = set()
 unmatched = []
 
+# create counter for scans in sub-collections (no idempotency)
+sub_coll_counts = Counter()
+for x in files:
+    m = pattern.match(os.path.split(x)[-1])
+    if m:
+        sub_coll_counts[m.group(1)] += (
+            1  # increment count (value) of specific sub-collection (key)
+        )
+
 for x in files:
     f_name = os.path.split(x)[-1]
 
@@ -135,6 +147,9 @@ for x in files:
     else:
         sub_coll_name = PARTS_MAP[match.group(2)]
 
+    # concatenate sub-collection description
+    sub_coll_desc = f"{sub_coll_name} zu {MD_DATA['title']} {MD_DATA['written_date']}, bestehend aus {sub_coll_counts[sub_coll_id]} digitalisierten Seite(n)"
+
     # add sub-collection triples once (idempotently)
     sub_coll_uri = URIRef(f"{TOP_COL_URI}/{sub_coll_id}")
     g.add((sub_coll_uri, RDF.type, ACDH["Collection"]))
@@ -143,7 +158,7 @@ for x in files:
     g.add(
         (sub_coll_uri, ACDH["hasDepositor"], URIRef("https://d-nb.info/gnd/120789825"))
     )
-
+    g.add((sub_coll_uri, ACDH["hasDescription"], Literal(sub_coll_desc, lang="de")))
     # add 2nd metadata creator to sub-collection
     g.add((sub_coll_uri, ACDH["hasMetadataCreator"], tfruehwirth[0]))
 
