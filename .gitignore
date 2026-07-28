@@ -216,6 +216,5 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
-krp-*/
 secret.env
 to_ingest/arche.ttl
