@@ -1,12 +1,13 @@
-@prefix acdh: <https://vocabs.acdh.oeaw.ac.at/schema#> .
-@prefix acdhi: <https://id.acdh.oeaw.ac.at/> .
+@prefix acdh: <https://vocabs.acdh.oeaw.ac.at/schema#>.
+@prefix acdhi: <https://id.acdh.oeaw.ac.at/>.
 
-<https://foo/bar> acdh:hasLicense <https://vocabs.acdh.oeaw.ac.at/archelicenses/noc-oklr> ;
-    acdh:hasContact <https://d-nb.info/gnd/120789825> ;  # Thomas Olechowski
-    acdh:hasDepositor <https://d-nb.info/gnd/120789825> ;  # Thomas Olechowski
-    acdh:hasMetadataCreator acdhi:pandorfer ;
-    acdh:hasLicensor <https://d-nb.info/gnd/37748-X> ;
-    acdh:hasOwner <https://d-nb.info/gnd/37748-X> ;
-    acdh:hasRightsInformation """Das Original befindet sich im Eigentum des Österreichischen Staatsarchivs (https://www.oesta.gv.at) unter der ÖStA-Signatur „AdR, MRang, MR 1Rep, KRP“. Die Verwendung des Digitalisats durch Dritte bedarf einer schriftlichen Bewilligung des ÖStA entsprechend der geltenden Benutzungsordnung."""@de ;
-    acdh:hasRightsInformation """The original source material is held by the Austrian State Archives (https://www.statearchives.gv.at) under the call number "AdR, MRang, MR 1Rep, KRP". Any third-party use of the digital image requires the written permission of the Austrian State Archives in compliance with the current rules of use."""@en ;
-    acdh:hasRightsHolder <https://d-nb.info/gnd/37748-X> .
+<https://foo/bar> acdh:hasLicense <https://vocabs.acdh.oeaw.ac.at/archelicenses/noc-oklr>;
+  acdh:hasContact <https://d-nb.info/gnd/120789825>;  # Thomas Olechowski
+  acdh:hasDepositor <https://d-nb.info/gnd/120789825>;  # Thomas Olechowski
+  acdh:hasMetadataCreator acdhi:pandorfer;
+  acdh:hasLicensor <https://d-nb.info/gnd/37748-X>;
+  acdh:hasOwner <https://d-nb.info/gnd/37748-X>;
+  acdh:hasRightsInformation """Das Original befindet sich im Eigentum des Österreichischen Staatsarchivs (https://www.oesta.gv.at) unter der ÖStA-Signatur „AdR, MRang, MR 1Rep, KRP“. Die Verwendung des Digitalisats durch Dritte bedarf einer schriftlichen Bewilligung des ÖStA entsprechend der geltenden Benutzungsordnung."""@de;
+  acdh:hasRightsInformation """The original source material is held by the Austrian State Archives (https://www.statearchives.gv.at) under the call number "AdR, MRang, MR 1Rep, KRP". Any third-party use of the digital image requires the written permission of the Austrian State Archives in compliance with the current rules of use."""@en;
+  acdh:hasRightsHolder <https://d-nb.info/gnd/37748-X>.
+

@@ -1,41 +1,41 @@
-@prefix acdh: <https://vocabs.acdh.oeaw.ac.at/schema#> .
-@prefix acdhi: <https://id.acdh.oeaw.ac.at/> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix acdh: <https://vocabs.acdh.oeaw.ac.at/schema#>.
+@prefix acdhi: <https://id.acdh.oeaw.ac.at/>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
 
-
-<https://id.acdh.oeaw.ac.at/krp> a acdh:TopCollection ;
-    acdh:hasTitle """Die Protokolle des österreichischen Kabinettsrates 1919–1920"""@de ;
-    acdh:hasTitle """The Minutes of the Austrian Cabinet Council 1919–1920"""@en ;
-    acdh:hasDescription """Diese Sammlung enthält die Scans der Protokolle des österreichischen Kabinettsrates 1919–1920."""@de;
-    acdh:hasDescription """This collection contains the scans of the minutes of the Austrian Cabinet Council 1919–1920."""@en;
-    acdh:hasTemporalCoverage "Erste Republik Österreich (1919–1934)."@de ;
-    acdh:hasTemporalCoverage "First Republic Austria (1919–1934)."@en ;
-    # acdh:hasUrl "https://krp.acdh.oeaw.ac.at";
-    acdh:hasLifeCycleStatus <https://vocabs.acdh.oeaw.ac.at/archelifecyclestatus/active> ;
-    acdh:hasCompleteness """Die Sammlung enthält aktuell nur die Scans der Protokolle, wird bis 2028 aber um annotierte Transkriptionen der Protokolle (sowie ergänzender Materialien) im TEI/XML Format erweitert."""@de ;
-    acdh:hasCompleteness """The collection currently contains only scans of the minutes, but will be expanded by 2028 to include annotated transcriptions of the minutes (and of supplementary materials) in TEI/XML format."""@en ;
-    acdh:hasAppliedMethodDescription """Die Protokolle wurden vom Projektteam im Österreichischen Staatsarchiv digitalisiert."""@de ;
-    acdh:hasAppliedMethodDescription """The minutes were digitized by the project team at the Austrian State Archives."""@en ;
-    acdh:hasSubject "Protokoll"@de ;
-    acdh:hasSubject "Minutes"@en ;
-    acdh:hasSubject "Faksimiles"@de ;
-    acdh:hasSubject "Facsimiles"@en ;
-    acdh:hasSubject "Digitale Edition"@de ;
-    acdh:hasSubject "Digital Edition"@en ;
-    acdh:hasLanguage <https://vocabs.acdh.oeaw.ac.at/iso6393/deu> ;
-    acdh:hasCoverageStartDate "1919-01-01"^^xsd:date ;
-    acdh:hasCoverageEndDate "1920-12-31"^^xsd:date ;
-    acdh:hasRelatedDiscipline <https://vocabs.acdh.oeaw.ac.at/oefosdisciplines/505014> ;  # Rechtsgeschichte
-    acdh:hasCurator acdhi:pandorfer ;
-    acdh:hasDepositor <https://d-nb.info/gnd/120789825> ;  # Thomas Olechowski
-    acdh:hasMetadataCreator acdhi:pandorfer ;
-    acdh:hasContact <https://d-nb.info/gnd/120789825> ;  # Thomas Olechowski
-    acdh:hasPrincipalInvestigator <https://d-nb.info/gnd/120789825> ;  # Thomas Olechowski
-    acdh:hasEditor <https://d-nb.info/gnd/120789825> ;  # Thomas Olechowski
-    acdh:hasCreatedStartDate "2026-05-01"^^xsd:date ;
-    acdh:hasCreatedEndDate "2028-12-31"^^xsd:date ;
-    acdh:hasPid "https://hdl.handle.net/21.11115/0000-0021-959A-5" .
+<https://id.acdh.oeaw.ac.at/krp> a acdh:TopCollection;
+  acdh:hasTitle """Die Protokolle des österreichischen Kabinettsrates 1919–1920"""@de;
+  acdh:hasTitle """The Minutes of the Austrian Cabinet Council 1919–1920"""@en;
+  acdh:hasDescription """Diese Sammlung enthält die Scans der Protokolle des österreichischen Kabinettsrates 1919–1920 sowie der relevanten Stenogramme, Beilagen, Anhänge und weiterer Begleitmaterialien."""@de;
+  acdh:hasDescription """This collection contains the scans of the minutes of the Austrian Cabinet Council 1919–1920, as well as of the associated shorthand records, supplements, appendices, and further accompanying material."""@en;
+  acdh:hasTemporalCoverage "Erste Republik Österreich (1919–1934)."@de;
+  acdh:hasTemporalCoverage "First Republic Austria (1919–1934)."@en;
+  # acdh:hasUrl "https://krp.acdh.oeaw.ac.at";
+  acdh:hasLifeCycleStatus <https://vocabs.acdh.oeaw.ac.at/archelifecyclestatus/active>;
+  acdh:hasCompleteness """Die Sammlung enthält aktuell nur die Scans der Protokolle, wird bis 2028 aber um annotierte Transkriptionen der Protokolle (sowie ergänzender Materialien) im TEI/XML Format erweitert."""@de;
+  acdh:hasCompleteness """The collection currently contains only scans of the minutes, but will be expanded by 2028 to include annotated transcriptions of the minutes (and of supplementary materials) in TEI/XML format."""@en;
+  acdh:hasAppliedMethodDescription """Die Protokolle wurden vom Projektteam im Österreichischen Staatsarchiv digitalisiert."""@de;
+  acdh:hasAppliedMethodDescription """The minutes were digitized by the project team at the Austrian State Archives."""@en;
+  acdh:hasSubject "Protokoll"@de;
+  acdh:hasSubject "Minutes"@en;
+  acdh:hasSubject "Faksimiles"@de;
+  acdh:hasSubject "Facsimiles"@en;
+  acdh:hasSubject "Digitale Edition"@de;
+  acdh:hasSubject "Digital Edition"@en;
+  acdh:hasLanguage <https://vocabs.acdh.oeaw.ac.at/iso6393/deu>;
+  acdh:hasCoverageStartDate "1919-01-01"^^xsd:date;
+  acdh:hasCoverageEndDate "1920-12-31"^^xsd:date;
+  acdh:hasRelatedDiscipline <https://vocabs.acdh.oeaw.ac.at/oefosdisciplines/505014>;  # Rechtsgeschichte
+  acdh:hasCurator acdhi:pandorfer;
+  acdh:hasDepositor <https://d-nb.info/gnd/120789825>;  # Thomas Olechowski
+  acdh:hasMetadataCreator acdhi:pandorfer;
+  acdh:hasContact <https://d-nb.info/gnd/120789825>;  # Thomas Olechowski
+  acdh:hasPrincipalInvestigator <https://d-nb.info/gnd/120789825>;  # Thomas Olechowski
+  acdh:hasEditor <https://d-nb.info/gnd/120789825>;  # Thomas Olechowski
+  acdh:hasCreatedStartDate "2026-05-01"^^xsd:date;
+  acdh:hasCreatedEndDate "2028-12-31"^^xsd:date;
+  acdh:hasPid "https://hdl.handle.net/21.11115/0000-0021-959A-5".
 
 <https://d-nb.info/gnd/120789825> a acdh:Person;
-    acdh:hasFirstName "Thomas"@de ;
-    acdh:hasLastName "Olechowski"@de .
+  acdh:hasFirstName "Thomas"@de;
+  acdh:hasLastName "Olechowski"@de.
+
