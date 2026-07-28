@@ -60,7 +60,7 @@ img_dir = os.path.join(BASE_PATH, PROTOCOL_ID)
 # create regex pattern object for capturing sub-collection IDs from filenames:
 # presuppose conventional filenaming, but allow for hyphen-underscore inconsistency
 pattern = re.compile(
-    rf"^({re.escape(PROTOCOL_ID)}_([{permitted_letters}])(\d*))[-_]\d{{4}}\.TIF$"
+    rf"^({re.escape(PROTOCOL_ID)}_([{permitted_letters}])(\d*))[-_](\d{{4}})\.TIF$"
 )
 
 PROTOCOL_URI = URIRef(f"{TOP_COL_URI}/{PROTOCOL_ID}")
@@ -115,11 +115,10 @@ g.add((PROTOCOL_URI, ACDH["hasMetadataCreator"], tfruehwirth[0]))
 files = glob.glob(f"{img_dir}/**/*.TIF", recursive=True)
 
 # create set for matching sub-collection IDs and list of unmatched filenames
-sub_coll_ids = set()
 unmatched = []
 
 # create set for holding names of all sub-collections inside collection
-sub_coll_names = set()
+sub_coll_labels = set()
 
 # create counter for scans in sub-collections (no idempotency)
 sub_coll_counts = Counter()
@@ -138,22 +137,24 @@ for x in files:
     match = pattern.match(f_name)
     if match:
         sub_coll_id = match.group(1)
-        sub_coll_ids.add(sub_coll_id)
     else:
         unmatched.append(f_name)
         continue
 
-    # create sub-collection name from regex capture groups
+    # create sub-collection short names from regex capture groups
     if match.group(3):
-        sub_coll_name = f"{PARTS_MAP[match.group(2)]} {match.group(3)}"
+        sub_coll_label = f"{PARTS_MAP[match.group(2)]} {match.group(3)}"
     else:
-        sub_coll_name = PARTS_MAP[match.group(2)]
+        sub_coll_label = PARTS_MAP[match.group(2)]
 
-    # add freshly created sub-collection name to set
-    sub_coll_names.add(sub_coll_name)
+    # add freshly created sub-collection short name to set
+    sub_coll_labels.add(sub_coll_label)
+
+    # create sub-collection long names
+    sub_coll_name = f"{sub_coll_label} zu {MD_DATA['title']} {MD_DATA['written_date']}"
 
     # concatenate sub-collection description
-    sub_coll_desc = f"{sub_coll_name} zu {MD_DATA['title']} {MD_DATA['written_date']}, bestehend aus {sub_coll_counts[sub_coll_id]} digitalisierten Seite(n)"
+    sub_coll_desc = f"{sub_coll_name}, bestehend aus {sub_coll_counts[sub_coll_id]} digitalisierten Seite(n)"
 
     # add sub-collection triples once (idempotently)
     sub_coll_uri = URIRef(f"{TOP_COL_URI}/{sub_coll_id}")
@@ -172,7 +173,16 @@ for x in files:
     g.add(
         (subj, ACDH["isPartOf"], sub_coll_uri)
     )  # point to sub-collection (instead of protocol collection)
-    g.add((subj, ACDH["hasTitle"], Literal(f"{MD_DATA['title']}: {f_name}", lang="de")))
+    g.add(
+        (
+            subj,
+            ACDH["hasTitle"],
+            Literal(
+                f"{MD_DATA['title']} {MD_DATA['written_date']}, {sub_coll_label}: Bild {match.group(4)}",
+                lang="de",
+            ),
+        )
+    )
     g.add(
         (
             subj,
@@ -195,7 +205,7 @@ for x in files:
     g.add((subj, ACDH["hasMetadataCreator"], tfruehwirth[0]))
 
 # concatenate collection description and add hasDescription triple
-coll_desc = f"{MD_DATA['title']} {MD_DATA['written_date']}, bestehend aus {len(sub_coll_names)} Teilen: {', '.join(sorted(sub_coll_names))}"
+coll_desc = f"{MD_DATA['title']} {MD_DATA['written_date']}, bestehend aus {len(sub_coll_labels)} Teilen: {', '.join(sorted(sub_coll_labels))}"
 g.add((PROTOCOL_URI, ACDH["hasDescription"], Literal(coll_desc, lang="de")))
 
 # add 2nd metadata creator to top collection
