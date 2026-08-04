@@ -1,4 +1,4 @@
-import glob
+import json
 import os
 import re  # for capturing sub-collection IDs from filename pattern
 import shutil
@@ -19,7 +19,6 @@ TOP_COL = os.environ.get("TOPCOLID", "https://id.acdh.oeaw.ac.at/krp")
 TOP_COL_URI = URIRef(TOP_COL)
 ACDH = Namespace("https://vocabs.acdh.oeaw.ac.at/schema#")
 
-BASE_PATH = os.environ.get("PROTOCOL_DIR")
 PROTOCOL_ID = os.environ.get("PROTOCOL_ID")
 MD_FILE = requests.get(
     "https://raw.githubusercontent.com/krp-project/krp-baserow-dump/refs/heads/main/json_dumps/protocols.json"
@@ -55,7 +54,7 @@ permitted_letters = "".join(
     PARTS_MAP.keys()
 )  # save permitted letters from PARTS_MAP (single source of truth)
 
-img_dir = os.path.join(BASE_PATH, PROTOCOL_ID)
+json_path = os.path.join(PROTOCOL_ID, "fileList.json")
 
 # create regex pattern object for capturing sub-collection IDs from filenames:
 # presuppose conventional filenaming, but allow for hyphen-underscore inconsistency
@@ -112,7 +111,15 @@ g.add((PROTOCOL_URI, ACDH["hasDepositor"], URIRef("https://d-nb.info/gnd/1207898
 # add 2nd metadata creator to collection
 g.add((PROTOCOL_URI, ACDH["hasMetadataCreator"], tfruehwirth[0]))
 
-files = glob.glob(f"{img_dir}/**/*.TIF", recursive=True)
+# fetch filenames from fileList.json after file-checking:
+with open(json_path, "r") as json_file:
+    data = json.load(json_file)
+
+files = [
+    entry["filename"]
+    for entry in data
+    if entry["filename"].endswith(".TIF") and entry["valid"]
+]
 
 # create set for matching sub-collection IDs and list of unmatched filenames
 unmatched = []
@@ -123,15 +130,13 @@ sub_coll_labels = set()
 # create counter for scans in sub-collections (no idempotency)
 sub_coll_counts = Counter()
 for x in files:
-    m = pattern.match(os.path.split(x)[-1])
+    m = pattern.match(x)
     if m:
         sub_coll_counts[m.group(1)] += (
             1  # increment count (value) of specific sub-collection (key)
         )
 
-for x in files:
-    f_name = os.path.split(x)[-1]
-
+for f_name in files:
     # validate filename against pattern:
     # store valid sub-collection IDs in set; relegate unmatched filenames to list
     match = pattern.match(f_name)
