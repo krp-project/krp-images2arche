@@ -35,3 +35,5 @@ compress tifs in the given folder
 ```bash
 uv run ./src/arche.py
 ```
+
+Subsequent ARCHE ingest runs via `arche/arche__ingest_md.sh`, which requires ARCHE credentials in `secret.env`.
