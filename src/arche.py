@@ -172,6 +172,22 @@ for f_name in files:
     g.add((sub_coll_uri, ACDH["hasDescription"], Literal(sub_coll_desc, lang="de")))
     # add 2nd metadata creator to sub-collection
     g.add((sub_coll_uri, ACDH["hasMetadataCreator"], tfruehwirth[0]))
+    # add Kulturpool-relevant triples
+    g.add((sub_coll_uri, ACDH["hasTag"], Literal("TEXT", lang="und")))
+    g.add(
+        (
+            sub_coll_uri,
+            ACDH["hasOaiSet"],
+            URIRef("https://vocabs.acdh.oeaw.ac.at/archeoaisets/kulturpool"),
+        )
+    )
+    g.add(
+        (
+            sub_coll_uri,
+            ACDH["hasLicense"],
+            URIRef("https://vocabs.acdh.oeaw.ac.at/archelicenses/noc-oklr"),
+        )
+    )
 
     subj = URIRef(f"{TOP_COL_URI}/{f_name}")
     g.add((subj, RDF.type, ACDH["Resource"]))
