@@ -10,6 +10,9 @@ Adapt `/protocol_id.env` so it matches the folder/protocol you'd like to process
 source ./set_env_variables.sh
 ```
 
+> [!NOTE]  
+> `set_env_variables.sh` reaches for a `secret.env` that contains ARCHE credentials required for ingest only; without this file, `source ./set_env_variables.sh` prints a warning.
+
 ## compress tifs
 
 compress tifs in the given folder
