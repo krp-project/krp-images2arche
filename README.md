@@ -26,6 +26,9 @@ compress tifs in the given folder
 
 ## create arche rdf
 
+> [!IMPORTANT]
+> Requires `arche__filechecker.sh` to have been run first — filenames are read from `<PROTOCOL_ID>/fileList.json`, not from the image directory.
+
 ```bash
 uv run ./src/arche.py
 ```
