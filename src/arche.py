@@ -3,7 +3,7 @@ import os
 import re  # for capturing sub-collection IDs from filename pattern
 import shutil
 from collections import (
-    Counter,  # import Counter class for counting scans for sub-collection description
+    defaultdict,  # for automatically creating empty lists for missing keys through defaultdict(list)
 )
 
 import requests
@@ -127,14 +127,32 @@ unmatched = []
 # create set for holding names of all sub-collections inside collection
 sub_coll_labels = set()
 
-# create counter for scans in sub-collections (no idempotency)
-sub_coll_counts = Counter()
+# group filenames into lists by sub-collection
+sub_coll_files = defaultdict(list)  # create defaultdict dictionary of lists
 for x in files:
     m = pattern.match(x)
     if m:
-        sub_coll_counts[m.group(1)] += (
-            1  # increment count (value) of specific sub-collection (key)
-        )
+        # filenames are appended to lists whose keys are sub-collection IDs;
+        # first filename of new sub-collection triggers new empty list (through defaultdict factory)
+        sub_coll_files[m.group(1)].append(x)
+
+# sort each list of images
+for flist in sub_coll_files.values():
+    flist.sort()
+
+# map each image to next; last gets no entry
+next_file = {}
+for flist in sub_coll_files.values():
+    for i, f in enumerate(
+        flist[:-1]
+    ):  # get index-filename pairs for each but last item
+        next_file[f] = flist[i + 1]  # look up next item in list
+
+# map each sub-collection to next alphabetically; last gets no entry
+ordered_ids = sorted(sub_coll_files)  # sort keys of defaultdict in new list
+next_sub_coll = {}
+for i, s in enumerate(ordered_ids[:-1]):
+    next_sub_coll[s] = ordered_ids[i + 1]
 
 for f_name in files:
     # validate filename against pattern:
@@ -159,7 +177,7 @@ for f_name in files:
     sub_coll_name = f"{sub_coll_label} zu {MD_DATA['title']} {MD_DATA['written_date']}"
 
     # concatenate sub-collection description
-    sub_coll_desc = f"{sub_coll_name}, bestehend aus {sub_coll_counts[sub_coll_id]} digitalisierten Seite(n)"
+    sub_coll_desc = f"{sub_coll_name}, bestehend aus {len(sub_coll_files[sub_coll_id])} digitalisierten Seite(n)"
 
     # add sub-collection triples once (idempotently)
     sub_coll_uri = URIRef(f"{TOP_COL_URI}/{sub_coll_id}")
@@ -188,12 +206,33 @@ for f_name in files:
             URIRef("https://vocabs.acdh.oeaw.ac.at/archelicenses/noc-oklr"),
         )
     )
+    g.add(
+        (
+            sub_coll_uri,
+            ACDH["hasNextItem"],
+            URIRef(f"{TOP_COL_URI}/{sub_coll_files[sub_coll_id][0]}"),
+        )
+    )  # link to first image in current sub-collection
+    if sub_coll_id in next_sub_coll:
+        g.add(
+            (
+                sub_coll_uri,
+                ACDH["hasNextItem"],
+                URIRef(f"{TOP_COL_URI}/{next_sub_coll[sub_coll_id]}"),
+            )
+        )  # link to next sub-collection
 
     subj = URIRef(f"{TOP_COL_URI}/{f_name}")
     g.add((subj, RDF.type, ACDH["Resource"]))
     g.add(
         (subj, ACDH["isPartOf"], sub_coll_uri)
     )  # point to sub-collection (instead of protocol collection)
+    # add Kulturpool-relevant triple
+    if f_name in next_file:
+        g.add(
+            (subj, ACDH["hasNextItem"], URIRef(f"{TOP_COL_URI}/{next_file[f_name]}"))
+        )  # link to next image in current sub-collection
+
     g.add(
         (
             subj,
@@ -228,6 +267,11 @@ for f_name in files:
 # concatenate collection description and add hasDescription triple
 coll_desc = f"{MD_DATA['title']} {MD_DATA['written_date']}, bestehend aus {len(sub_coll_labels)} Teilen: {', '.join(sorted(sub_coll_labels))}"
 g.add((PROTOCOL_URI, ACDH["hasDescription"], Literal(coll_desc, lang="de")))
+
+# add Kulturpool-relevant triple on collection level
+g.add(
+    (PROTOCOL_URI, ACDH["hasNextItem"], URIRef(f"{TOP_COL_URI}/{ordered_ids[0]}"))
+)  # link to first sub-collection in collection
 
 # add 2nd metadata creator to top collection
 g.add((TOP_COL_URI, ACDH["hasMetadataCreator"], tfruehwirth[0]))
