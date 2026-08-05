@@ -221,6 +221,13 @@ for f_name in files:
                 URIRef(f"{TOP_COL_URI}/{next_sub_coll[sub_coll_id]}"),
             )
         )  # link to next sub-collection
+    g.add(
+        (
+            sub_coll_uri,
+            ACDH["hasLanguage"],
+            URIRef("https://vocabs.acdh.oeaw.ac.at/iso6393/deu"),
+        )
+    )
 
     subj = URIRef(f"{TOP_COL_URI}/{f_name}")
     g.add((subj, RDF.type, ACDH["Resource"]))
@@ -268,10 +275,17 @@ for f_name in files:
 coll_desc = f"{MD_DATA['title']} {MD_DATA['written_date']}, bestehend aus {len(sub_coll_labels)} Teilen: {', '.join(sorted(sub_coll_labels))}"
 g.add((PROTOCOL_URI, ACDH["hasDescription"], Literal(coll_desc, lang="de")))
 
-# add Kulturpool-relevant triple on collection level
+# add Kulturpool-relevant triples on collection level
 g.add(
     (PROTOCOL_URI, ACDH["hasNextItem"], URIRef(f"{TOP_COL_URI}/{ordered_ids[0]}"))
 )  # link to first sub-collection in collection
+g.add(
+    (
+        PROTOCOL_URI,
+        ACDH["hasLanguage"],
+        URIRef("https://vocabs.acdh.oeaw.ac.at/iso6393/deu"),
+    )
+)
 
 # add 2nd metadata creator to top collection
 g.add((TOP_COL_URI, ACDH["hasMetadataCreator"], tfruehwirth[0]))
