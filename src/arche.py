@@ -229,6 +229,24 @@ for f_name in files:
         )
     )
     g.add((sub_coll_uri, ACDH["hasOwner"], URIRef("https://d-nb.info/gnd/37748-X")))
+    g.add((sub_coll_uri, ACDH["hasSubject"], Literal("Protokoll", lang="de")))
+    g.add(
+        (
+            sub_coll_uri,
+            ACDH["hasSubject"],
+            Literal("Rechtsgeschichte – Dokumentation", lang="de"),
+        )
+    )
+    g.add((sub_coll_uri, ACDH["hasSubject"], Literal("Erste Republik", lang="de")))
+    g.add((sub_coll_uri, ACDH["hasSubject"], Literal("Minutes", lang="en")))
+    g.add(
+        (
+            sub_coll_uri,
+            ACDH["hasSubject"],
+            Literal("Legal History – Documentation", lang="en"),
+        )
+    )
+    g.add((sub_coll_uri, ACDH["hasSubject"], Literal("First Republic", lang="en")))
 
     subj = URIRef(f"{TOP_COL_URI}/{f_name}")
     g.add((subj, RDF.type, ACDH["Resource"]))
