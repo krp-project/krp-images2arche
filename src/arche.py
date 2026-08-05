@@ -247,6 +247,13 @@ for f_name in files:
         )
     )
     g.add((sub_coll_uri, ACDH["hasSubject"], Literal("First Republic", lang="en")))
+    g.add(
+        (
+            sub_coll_uri,
+            ACDH["hasSpatialCoverage"],
+            URIRef("https://id.acdh.oeaw.ac.at/place-austria"),
+        )
+    )
 
     subj = URIRef(f"{TOP_COL_URI}/{f_name}")
     g.add((subj, RDF.type, ACDH["Resource"]))
