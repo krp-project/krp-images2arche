@@ -235,11 +235,25 @@ for f_name in files:
     g.add(
         (subj, ACDH["isPartOf"], sub_coll_uri)
     )  # point to sub-collection (instead of protocol collection)
-    # add Kulturpool-relevant triple
+    # add Kulturpool-relevant triples
     if f_name in next_file:
         g.add(
             (subj, ACDH["hasNextItem"], URIRef(f"{TOP_COL_URI}/{next_file[f_name]}"))
         )  # link to next image in current sub-collection
+    g.add(
+        (
+            subj,
+            ACDH["hasCreatedStartDateOriginal"],
+            Literal(MD_DATA["date"], datatype=XSD.date),
+        )
+    )
+    g.add(
+        (
+            subj,
+            ACDH["hasCreatedEndDateOriginal"],
+            Literal(MD_DATA["date"], datatype=XSD.date),
+        )
+    )
 
     g.add(
         (
