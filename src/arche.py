@@ -228,6 +228,7 @@ for f_name in files:
             URIRef("https://vocabs.acdh.oeaw.ac.at/iso6393/deu"),
         )
     )
+    g.add((sub_coll_uri, ACDH["hasOwner"], URIRef("https://d-nb.info/gnd/37748-X")))
 
     subj = URIRef(f"{TOP_COL_URI}/{f_name}")
     g.add((subj, RDF.type, ACDH["Resource"]))
