@@ -30,7 +30,11 @@
   acdh:hasMetadataCreator acdhi:pandorfer;
   acdh:hasContact <https://d-nb.info/gnd/120789825>;  # Thomas Olechowski
   acdh:hasPrincipalInvestigator <https://d-nb.info/gnd/120789825>;  # Thomas Olechowski
+  acdh:hasPrincipalInvestigator <https://orcid.org/0000-0002-2783-203X>;  # Alexandra N. Lenz
+  acdh:hasPrincipalInvestigator <https://d-nb.info/gnd/122481836>;  # Helmut Wohnout
   acdh:hasEditor <https://d-nb.info/gnd/120789825>;  # Thomas Olechowski
+  acdh:hasEditor <https://orcid.org/0000-0002-2783-203X>;  # Alexandra N. Lenz
+  acdh:hasEditor <https://d-nb.info/gnd/122481836>;  # Helmut Wohnout
   acdh:hasCreatedStartDate "2026-05-01"^^xsd:date;
   acdh:hasCreatedEndDate "2028-12-31"^^xsd:date;
   acdh:hasPid "https://hdl.handle.net/21.11115/0000-0021-959A-5".
@@ -39,3 +43,10 @@
   acdh:hasFirstName "Thomas"@de;
   acdh:hasLastName "Olechowski"@de.
 
+<https://orcid.org/0000-0002-2783-203X> a acdh:Person;
+  acdh:hasFirstName "Alexandra"@de;
+  acdh:hasLastName "Lenz"@de.
+
+<https://d-nb.info/gnd/122481836> a acdh:Person;
+  acdh:hasFirstName "Helmut"@de;
+  acdh:hasLastName "Wohnout"@de.
