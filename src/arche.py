@@ -58,6 +58,16 @@ permitted_letters = "".join(
     PARTS_MAP.keys()
 )  # save permitted letters from PARTS_MAP (single source of truth)
 
+# select sub-set of constants that are relevant to collection and sub-collection levels
+COLL_CONSTANTS = ["hasLicensor", "hasRightsHolder", "hasOwner"]
+SUB_COLL_CONSTANTS = [
+    "hasLicense",
+    "hasLicensor",
+    "hasRightsInformation",
+    "hasRightsHolder",
+    "hasOwner",
+]
+
 json_path = os.path.join(PROTOCOL_ID, "fileList.json")
 
 # create regex pattern object for capturing sub-collection IDs from filenames:
@@ -114,6 +124,10 @@ g.add(
 g.add((PROTOCOL_URI, ACDH["hasDepositor"], URIRef("https://d-nb.info/gnd/120789825")))
 # add 2nd metadata creator to collection
 g.add((PROTOCOL_URI, ACDH["hasMetadataCreator"], tfruehwirth[0]))
+# add relevant sub-set of constants to collection
+for prop in COLL_CONSTANTS:
+    for o in arche_constants.objects(None, ACDH[prop]):
+        g.add((PROTOCOL_URI, ACDH[prop], o))
 
 # fetch filenames from fileList.json after file-checking:
 with open(json_path, "r") as json_file:
@@ -185,6 +199,10 @@ for f_name in files:
 
     # add sub-collection triples once (idempotently)
     sub_coll_uri = URIRef(f"{TOP_COL_URI}/{sub_coll_id}")
+    # add relevant sub-set of constants to sub-collection
+    for prop in SUB_COLL_CONSTANTS:
+        for o in arche_constants.objects(None, ACDH[prop]):
+            g.add((sub_coll_uri, ACDH[prop], o))
     g.add((sub_coll_uri, RDF.type, ACDH["Collection"]))
     g.add((sub_coll_uri, ACDH["isPartOf"], PROTOCOL_URI))
     g.add((sub_coll_uri, ACDH["hasTitle"], Literal(sub_coll_name, lang="de")))
@@ -201,13 +219,6 @@ for f_name in files:
             sub_coll_uri,
             ACDH["hasOaiSet"],
             URIRef("https://vocabs.acdh.oeaw.ac.at/archeoaisets/kulturpool"),
-        )
-    )
-    g.add(
-        (
-            sub_coll_uri,
-            ACDH["hasLicense"],
-            URIRef("https://vocabs.acdh.oeaw.ac.at/archelicenses/noc-oklr"),
         )
     )
     g.add(
@@ -232,7 +243,6 @@ for f_name in files:
             URIRef("https://vocabs.acdh.oeaw.ac.at/iso6393/deu"),
         )
     )
-    g.add((sub_coll_uri, ACDH["hasOwner"], URIRef("https://d-nb.info/gnd/37748-X")))
     g.add((sub_coll_uri, ACDH["hasSubject"], Literal("Protokoll", lang="de")))
     g.add(
         (
@@ -264,6 +274,13 @@ for f_name in files:
     g.add(
         (subj, ACDH["isPartOf"], sub_coll_uri)
     )  # point to sub-collection (instead of protocol collection)
+    g.add(
+        (
+            subj,
+            ACDH["hasLanguage"],
+            URIRef("https://vocabs.acdh.oeaw.ac.at/iso6393/deu"),
+        )
+    )
     # add Kulturpool-relevant triples
     if f_name in next_file:
         g.add(
@@ -307,6 +324,9 @@ for f_name in files:
         g.add(
             (subj, ACDH["hasDigitisingAgent"], uri)
         )  # add digitising agents to each image
+        g.add(
+            (sub_coll_uri, ACDH["hasDigitisingAgent"], uri)
+        )  # add digitising agents to each sub-collection
         # add person triples once (idempotently)
         g.add((uri, RDF.type, ACDH["Person"]))
         g.add((uri, ACDH["hasFirstName"], Literal(firstname, lang="und")))
