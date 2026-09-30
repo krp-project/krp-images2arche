@@ -40,13 +40,52 @@
   acdh:hasPid "https://hdl.handle.net/21.11115/0000-0021-959A-5".
 
 <https://d-nb.info/gnd/120789825> a acdh:Person;
-  acdh:hasFirstName "Thomas"@de;
-  acdh:hasLastName "Olechowski"@de.
+  acdh:hasFirstName "Thomas"@und;
+  acdh:hasLastName "Olechowski"@und;
+  acdh:hasTitle "Thomas Olechowski"@und;
+  acdh:hasPersonalTitle "Univ.-Prof. Dr.";
+  acdh:isMemberOf acdhi:oeaw;
+  acdh:isMemberOf acdhi:universitaet-wien;
+  acdh:isMemberOf acdhi:uniwien-rechtsgeschichte;
+  acdh:isMemberOf acdhi:krgoe.
 
-<https://orcid.org/0000-0002-2783-203X> a acdh:Person;
-  acdh:hasFirstName "Alexandra"@de;
-  acdh:hasLastName "Lenz"@de.
+acdhi:uniwien-rechtsgeschichte a acdh:Organisation;
+  acdh:hasTitle "Institut für Rechts- und Verfassungsgeschichte | Universität Wien"@de;
+  acdh:hasTitle "Department of Legal and Constitutional History | University of Vienna"@en;
+  acdh:isMemberOf acdhi:universitaet-wien.
+
+acdhi:krgoe a acdh:Organisation;
+  acdh:hasTitle "Kommission für Rechtsgeschichte Österreichs | Österreichische Akademie der Wissenschaften"@de;
+  acdh:hasTitle "Commission for Austrian Legal History | Austrian Academy of Sciences"@en;
+  acdh:isMemberOf acdhi:oeaw.
+
+# <https://orcid.org/0000-0002-2783-203X> a acdh:Person;
+#   acdh:hasFirstName "Alexandra N."@und;
+#   acdh:hasLastName "Lenz"@und;
+#   acdh:isMemberOf acdhi:acdh.
+
+acdhi:anlenz a acdh:Person;
+  acdh:hasIdentifier <https://id.acdh.oeaw.ac.at/anlenz>;
+  acdh:hasIdentifier <https://orcid.org/0000-0002-2783-203X>;
+  acdh:hasTitle "Alexandra N. Lenz"@und;
+  acdh:hasFirstName "Alexandra N."@und;
+  acdh:hasLastName "Lenz"@und;
+  acdh:hasPersonalTitle "Univ.-Prof. Dr.";
+  acdh:hasAddressLine1 "Bäckerstraße 13";
+  acdh:hasAddressLine2 "c/o ACDH";
+  acdh:hasPostcode "1010";
+  acdh:hasCity "Vienna"@en;
+  acdh:hasCity "Wien"@de;
+  acdh:hasCountry "Austria"@en;
+  acdh:hasCountry "Österreich"@de;
+  acdh:hasRegion "Vienna"@en;
+  acdh:hasRegion "Wien"@de;
+  acdh:hasEmail "alexandra.lenz@oeaw.ac.at";
+  acdh:isMemberOf acdhi:acdh.
 
 <https://d-nb.info/gnd/122481836> a acdh:Person;
-  acdh:hasFirstName "Helmut"@de;
-  acdh:hasLastName "Wohnout"@de.
+  acdh:hasFirstName "Helmut"@und;
+  acdh:hasLastName "Wohnout"@und;
+  acdh:hasTitle "Helmut Wohnout"@und;
+  acdh:hasPersonalTitle "HR Priv.-Doz. Dr.";
+  acdh:isMemberOf acdhi:oesterreichisches-staatsarchiv.

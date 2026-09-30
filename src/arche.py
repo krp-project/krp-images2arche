@@ -18,6 +18,7 @@ arche_constants = Graph().parse("arche/arche_constants.ttl")
 TOP_COL = os.environ.get("TOPCOLID", "https://id.acdh.oeaw.ac.at/krp")
 TOP_COL_URI = URIRef(TOP_COL)
 ACDH = Namespace("https://vocabs.acdh.oeaw.ac.at/schema#")
+ACDHI = Namespace("https://id.acdh.oeaw.ac.at/")
 
 PROTOCOL_ID = os.environ.get("PROTOCOL_ID")
 MD_FILE = requests.get(
@@ -28,14 +29,17 @@ MD_DATA = {value["krp_id"]: value for key, value in MD_FILE.items()}[PROTOCOL_ID
 print(MD_DATA)
 
 # collect digitising-agent infos in list of tuples
-DIGITISING_AGENTS = [
+DIGITISING_AGENTS_UNIVIE = [
     (URIRef("https://orcid.org/0009-0005-3560-3500"), "Anna", "Holzer"),
     (URIRef("https://d-nb.info/gnd/131679384"), "Richard", "Lein"),
     (URIRef("https://orcid.org/0009-0007-5210-3713"), "Ina", "Schotzko"),
     (URIRef("https://orcid.org/0009-0007-9895-7212"), "Dominik", "Sölkner"),
+]
+DIGITISING_AGENTS_OTHER = [
     (URIRef("https://orcid.org/0009-0006-8542-4743"), "Aliana", "Martinez Despaigne"),
     (URIRef("https://orcid.org/0009-0005-4167-5041"), "Georg", "Hubalek"),
 ]
+DIGITISING_AGENTS = DIGITISING_AGENTS_UNIVIE + DIGITISING_AGENTS_OTHER
 
 # collect 2nd metadata-creator infos in tuple
 tfruehwirth = (URIRef("https://orcid.org/0000-0002-3997-5193"), "Timo", "Frühwirth")
@@ -297,6 +301,7 @@ for f_name in files:
             URIRef("https://vocabs.acdh.oeaw.ac.at/archecategory/image"),
         )
     )
+
     # loop through digitising-agent infos
     for uri, firstname, lastname in DIGITISING_AGENTS:
         g.add(
@@ -304,10 +309,23 @@ for f_name in files:
         )  # add digitising agents to each image
         # add person triples once (idempotently)
         g.add((uri, RDF.type, ACDH["Person"]))
-        g.add((uri, ACDH["hasFirstName"], Literal(firstname, lang="de")))
-        g.add((uri, ACDH["hasLastName"], Literal(lastname, lang="de")))
+        g.add((uri, ACDH["hasFirstName"], Literal(firstname, lang="und")))
+        g.add((uri, ACDH["hasLastName"], Literal(lastname, lang="und")))
+        g.add(
+            (
+                uri,
+                ACDH["hasTitle"],
+                Literal(f"{firstname} {lastname}", lang="und"),
+            )
+        )
+
+    for uri, _f, _l in DIGITISING_AGENTS_UNIVIE:
+        g.add((uri, ACDH["isMemberOf"], ACDHI["universitaet-wien"]))
+        g.add((uri, ACDH["isMemberOf"], ACDHI["uniwien-rechtsgeschichte"]))
+
     for p, o in arche_constants.predicate_objects():
         g.add((subj, p, o))
+
     # add 2nd metadata creator to resource once (idempotently)
     g.add((subj, ACDH["hasMetadataCreator"], tfruehwirth[0]))
 
@@ -329,10 +347,37 @@ g.add(
 
 # add 2nd metadata creator to top collection
 g.add((TOP_COL_URI, ACDH["hasMetadataCreator"], tfruehwirth[0]))
-# add 2nd-metadata-creator infos
-g.add((tfruehwirth[0], RDF.type, ACDH["Person"]))
-g.add((tfruehwirth[0], ACDH["hasFirstName"], Literal(tfruehwirth[1], lang="de")))
-g.add((tfruehwirth[0], ACDH["hasLastName"], Literal(tfruehwirth[2], lang="de")))
+# add 2nd metadata creator infos
+g.add((ACDHI["tfruehwirth"], RDF.type, ACDH["Person"]))
+g.add((ACDHI["tfruehwirth"], ACDH["hasFirstName"], Literal(tfruehwirth[1], lang="und")))
+g.add((ACDHI["tfruehwirth"], ACDH["hasLastName"], Literal(tfruehwirth[2], lang="und")))
+g.add((ACDHI["tfruehwirth"], ACDH["isMemberOf"], ACDHI["acdh"]))
+g.add((ACDHI["tfruehwirth"], ACDH["hasIdentifier"], tfruehwirth[0]))
+g.add(
+    (
+        ACDHI["tfruehwirth"],
+        ACDH["hasIdentifier"],
+        ACDHI["tfruehwirth"],
+    )
+)
+g.add(
+    (
+        ACDHI["tfruehwirth"],
+        ACDH["hasTitle"],
+        Literal(f"{tfruehwirth[1]} {tfruehwirth[2]}", lang="und"),
+    )
+)
+g.add((ACDHI["tfruehwirth"], ACDH["hasPersonalTitle"], Literal("Mag. Dr.")))
+g.add((ACDHI["tfruehwirth"], ACDH["hasAddressLine1"], Literal("Bäckerstraße 13")))
+g.add((ACDHI["tfruehwirth"], ACDH["hasAddressLine2"], Literal("c/o ACDH")))
+g.add((ACDHI["tfruehwirth"], ACDH["hasPostcode"], Literal("1010")))
+g.add((ACDHI["tfruehwirth"], ACDH["hasCity"], Literal("Vienna", lang="en")))
+g.add((ACDHI["tfruehwirth"], ACDH["hasCity"], Literal("Wien", lang="de")))
+g.add((ACDHI["tfruehwirth"], ACDH["hasCountry"], Literal("Austria", lang="en")))
+g.add((ACDHI["tfruehwirth"], ACDH["hasCountry"], Literal("Österreich", lang="de")))
+g.add((ACDHI["tfruehwirth"], ACDH["hasRegion"], Literal("Vienna", lang="en")))
+g.add((ACDHI["tfruehwirth"], ACDH["hasRegion"], Literal("Wien", lang="de")))
+g.add((ACDHI["tfruehwirth"], ACDH["hasEmail"], Literal("timo.fruehwirth@oeaw.ac.at")))
 
 # output console feedback on unmatched file names for the mechanism to fail informatively
 if unmatched:
