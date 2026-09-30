@@ -368,36 +368,36 @@ g.add(
 # add 2nd metadata creator to top collection
 g.add((TOP_COL_URI, ACDH["hasMetadataCreator"], tfruehwirth[0]))
 # add 2nd metadata creator infos
-g.add((ACDHI["tfruehwirth"], RDF.type, ACDH["Person"]))
-g.add((ACDHI["tfruehwirth"], ACDH["hasFirstName"], Literal(tfruehwirth[1], lang="und")))
-g.add((ACDHI["tfruehwirth"], ACDH["hasLastName"], Literal(tfruehwirth[2], lang="und")))
-g.add((ACDHI["tfruehwirth"], ACDH["isMemberOf"], ACDHI["acdh"]))
-g.add((ACDHI["tfruehwirth"], ACDH["hasIdentifier"], tfruehwirth[0]))
+g.add((tfruehwirth[0], RDF.type, ACDH["Person"]))
+g.add((tfruehwirth[0], ACDH["hasFirstName"], Literal(tfruehwirth[1], lang="und")))
+g.add((tfruehwirth[0], ACDH["hasLastName"], Literal(tfruehwirth[2], lang="und")))
+g.add((tfruehwirth[0], ACDH["isMemberOf"], ACDHI["acdh"]))
+g.add((tfruehwirth[0], ACDH["hasIdentifier"], tfruehwirth[0]))
 g.add(
     (
-        ACDHI["tfruehwirth"],
+        tfruehwirth[0],
         ACDH["hasIdentifier"],
         ACDHI["tfruehwirth"],
     )
 )
 g.add(
     (
-        ACDHI["tfruehwirth"],
+        tfruehwirth[0],
         ACDH["hasTitle"],
         Literal(f"{tfruehwirth[1]} {tfruehwirth[2]}", lang="und"),
     )
 )
-g.add((ACDHI["tfruehwirth"], ACDH["hasPersonalTitle"], Literal("Mag. Dr.")))
-g.add((ACDHI["tfruehwirth"], ACDH["hasAddressLine1"], Literal("Bäckerstraße 13")))
-g.add((ACDHI["tfruehwirth"], ACDH["hasAddressLine2"], Literal("c/o ACDH")))
-g.add((ACDHI["tfruehwirth"], ACDH["hasPostcode"], Literal("1010")))
-g.add((ACDHI["tfruehwirth"], ACDH["hasCity"], Literal("Vienna", lang="en")))
-g.add((ACDHI["tfruehwirth"], ACDH["hasCity"], Literal("Wien", lang="de")))
-g.add((ACDHI["tfruehwirth"], ACDH["hasCountry"], Literal("Austria", lang="en")))
-g.add((ACDHI["tfruehwirth"], ACDH["hasCountry"], Literal("Österreich", lang="de")))
-g.add((ACDHI["tfruehwirth"], ACDH["hasRegion"], Literal("Vienna", lang="en")))
-g.add((ACDHI["tfruehwirth"], ACDH["hasRegion"], Literal("Wien", lang="de")))
-g.add((ACDHI["tfruehwirth"], ACDH["hasEmail"], Literal("timo.fruehwirth@oeaw.ac.at")))
+g.add((tfruehwirth[0], ACDH["hasPersonalTitle"], Literal("Mag. Dr.")))
+g.add((tfruehwirth[0], ACDH["hasAddressLine1"], Literal("Bäckerstraße 13")))
+g.add((tfruehwirth[0], ACDH["hasAddressLine2"], Literal("c/o ACDH")))
+g.add((tfruehwirth[0], ACDH["hasPostcode"], Literal("1010")))
+g.add((tfruehwirth[0], ACDH["hasCity"], Literal("Vienna", lang="en")))
+g.add((tfruehwirth[0], ACDH["hasCity"], Literal("Wien", lang="de")))
+g.add((tfruehwirth[0], ACDH["hasCountry"], Literal("Austria", lang="en")))
+g.add((tfruehwirth[0], ACDH["hasCountry"], Literal("Österreich", lang="de")))
+g.add((tfruehwirth[0], ACDH["hasRegion"], Literal("Vienna", lang="en")))
+g.add((tfruehwirth[0], ACDH["hasRegion"], Literal("Wien", lang="de")))
+g.add((tfruehwirth[0], ACDH["hasEmail"], Literal("timo.fruehwirth@oeaw.ac.at")))
 
 # output console feedback on unmatched file names for the mechanism to fail informatively
 if unmatched:
