@@ -29,17 +29,14 @@ MD_DATA = {value["krp_id"]: value for key, value in MD_FILE.items()}[PROTOCOL_ID
 print(MD_DATA)
 
 # collect digitising-agent infos in list of tuples
-DIGITISING_AGENTS_UNIVIE = [
+DIGITISING_AGENTS = [
     (URIRef("https://orcid.org/0009-0005-3560-3500"), "Anna", "Holzer"),
     (URIRef("https://d-nb.info/gnd/131679384"), "Richard", "Lein"),
     (URIRef("https://orcid.org/0009-0007-5210-3713"), "Ina", "Schotzko"),
     (URIRef("https://orcid.org/0009-0007-9895-7212"), "Dominik", "Sölkner"),
-]
-DIGITISING_AGENTS_OTHER = [
     (URIRef("https://orcid.org/0009-0006-8542-4743"), "Aliana", "Martinez Despaigne"),
     (URIRef("https://orcid.org/0009-0005-4167-5041"), "Georg", "Hubalek"),
 ]
-DIGITISING_AGENTS = DIGITISING_AGENTS_UNIVIE + DIGITISING_AGENTS_OTHER
 
 # collect 2nd metadata-creator infos in tuple
 tfruehwirth = (URIRef("https://orcid.org/0000-0002-3997-5193"), "Timo", "Frühwirth")
@@ -339,8 +336,7 @@ for f_name in files:
             )
         )
 
-    for uri, _f, _l in DIGITISING_AGENTS_UNIVIE:
-        g.add((uri, ACDH["isMemberOf"], ACDHI["universitaet-wien"]))
+    for uri, _f, _l in DIGITISING_AGENTS:
         g.add((uri, ACDH["isMemberOf"], ACDHI["uniwien-rechtsgeschichte"]))
 
     for p, o in arche_constants.predicate_objects():

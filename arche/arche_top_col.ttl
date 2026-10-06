@@ -57,8 +57,6 @@
   acdh:hasLastName "Olechowski"@und;
   acdh:hasTitle "Thomas Olechowski"@und;
   acdh:hasPersonalTitle "Univ.-Prof. Dr.";
-  acdh:isMemberOf acdhi:oeaw;
-  acdh:isMemberOf acdhi:universitaet-wien;
   acdh:isMemberOf acdhi:uniwien-rechtsgeschichte;
   acdh:isMemberOf acdhi:krgoe.
 
